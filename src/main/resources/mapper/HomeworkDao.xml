@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.HomeworkDao">
+    <select id="queryHomework" resultType="com.imooc.demo.entity.Homework">
+		SELECT homework_id, subject_id,
+		class_grade_id, content, homework_img,
+		homework_create_date,homework_last_edit_time
+		FROM tb_homework
+	</select>
+    <select id="queryHomeworkById" resultType="com.imooc.demo.entity.Homework">
+		SELECT homework_id, subject_id,
+		class_grade_id, content, homework_img,
+		homework_create_date,homework_last_edit_time
+		FROM tb_homework
+		WHERE
+		homework_id=#{homeworkId}
+	</select>
+    <insert id="insertHomework" useGeneratedKeys="true" keyProperty="homeworkId"
+            keyColumn="homework_id" parameterType="com.imooc.demo.entity.Homework">
+		INSERT INTO
+		tb_homework(
+		class_grade_id, content, homework_img,
+		homework_create_date,homework_last_edit_time)
+		VALUES
+		(#{classGradeId},#{content},
+		#{homeworkImg},#{homeworkCreateDate},#{homeworkLastEditTime})
+	</insert>
+    <update id="updateHomework" parameterType="com.imooc.demo.entity.Homework">
+        update tb_homework
+        <set>
+            <if test="classGradeId != null">class_grade_id=#{classGradeId},</if>
+            <if test="content != null">content=#{content},</if>
+            <if test="homeworkImg != null">homework_img=#{homeworkImg},</if>
+            <if test="homeworkLastEditTime != null">homework_last_edit_time=#{homeworkLastEditTime}</if>
+        </set>
+        where homework_id=#{homeworkId}
+    </update>
+    <delete id="deleteHomework">
+		DELETE FROM
+		tb_homework
+		WHERE
+		homework_id=#{homeworkId}
+	</delete>
+</mapper>

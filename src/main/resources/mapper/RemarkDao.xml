@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.RemarkDao">
+    <select id="queryRemark" resultType="com.imooc.demo.entity.Remark">
+		SELECT remark_id, to_user_id,
+		from_user_id, remark_name, remark_content,remark_type_id,
+		remark_create_date,remark_last_edit_time
+		FROM tb_remark
+	</select>
+    <select id="queryRemarkById" resultType="com.imooc.demo.entity.Remark">
+		SELECT remark_id, to_user_id,
+		from_user_id, remark_name, remark_content,remark_type_id,
+		remark_create_date,remark_last_edit_time
+		FROM tb_remark
+		WHERE
+		remark_id=#{remarkId}
+	</select>
+    <insert id="insertRemark" useGeneratedKeys="true" keyProperty="remarkId"
+            keyColumn="remark_id" parameterType="com.imooc.demo.entity.Remark">
+		INSERT INTO
+		tb_remark(to_user_id,
+		from_user_id, remark_name, remark_content,remark_type_id,
+		remark_create_date,remark_last_edit_time)
+		VALUES
+		(#{toUserId},#{fromUserId},
+		#{remarkName},#{remarkContent},#{remarkTypeId},#{remarkCreateDate},#{remarkLastEditTime})
+	</insert>
+    <update id="updateRemark" parameterType="com.imooc.demo.entity.Remark">
+        update tb_remark
+        <set>
+            <if test="remarkName != null">remark_name=#{remarkName},</if>
+            <if test="remarkContent != null">remark_content=#{remarkContent},</if>
+			<if test="remarkTypeId != null">remark_type_id=#{remarkTypeId},</if>
+            <if test="remarkLastEditTime != null">remark_last_edit_time=#{remarkLastEditTime}</if>
+        </set>
+        where remark_id=#{remarkId}
+    </update>
+    <delete id="deleteRemark">
+		DELETE FROM
+		tb_remark
+		WHERE
+		remark_id =
+		#{remarkId}
+	</delete>
+</mapper>
+    

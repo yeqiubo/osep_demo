@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.SubjectDao">
+    <select id="querySubject" resultType="com.imooc.demo.entity.Subject">
+		SELECT subject_id, subject_name,
+		subject_creat_time, subject_last_edit_time
+		FROM tb_subject
+	</select>
+    <select id="querySubjectById" resultType="com.imooc.demo.entity.Subject">
+		SELECT subject_id, subject_name,
+		subject_creat_time, subject_last_edit_time
+		FROM tb_subject
+		WHERE
+		subject_id=#{subjectId}
+	</select>
+    <insert id="insertSubject" useGeneratedKeys="true" keyProperty="subjectId"
+            keyColumn="subject_id" parameterType="com.imooc.demo.entity.Subject">
+		INSERT INTO
+		tb_subject(subject_name,subject_create_time,
+		subject_last_edit_time)
+		VALUES
+		(#{subjectName},#{subjectCreateTime},
+		#{subjectLastEditTime})
+	</insert>
+    <update id="updateSubject" parameterType="com.imooc.demo.entity.Subject">
+        update tb_subject
+        <set>
+            <if test="subjectName != null">subject_name=#{subjectName},</if>
+            <if test="subjectLastEditTime != null">last_edit_time=#{subjectLastEditTime}</if>
+        </set>
+        where subject_id=#{subjectId}
+    </update>
+    <delete id="deleteSubject">
+		DELETE FROM
+		tb_subject
+		WHERE
+		subject_id =
+		#{subjectId}
+	</delete>
+</mapper>
+    

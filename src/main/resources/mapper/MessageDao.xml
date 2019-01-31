@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.MessageDao">
+    <select id="queryMessage" resultType="com.imooc.demo.entity.Message">
+		SELECT message_id, message_to_user_list,
+		message_from_user_id, message_title, message_content,
+		message_create_time, message_last_edit_time
+		FROM tb_message
+
+	</select>
+    <select id="queryMessageById" resultType="com.imooc.demo.entity.Message">
+		SELECT message_id, message_to_user_list,
+		message_from_user_id, message_title, message_content,
+		message_create_time, message_last_edit_time
+		FROM tb_message
+		WHERE
+		message_id=#{messageId}
+	</select>
+    <insert id="insertMessage" useGeneratedKeys="true" keyProperty="messageId"
+            keyColumn="message_id" parameterType="com.imooc.demo.entity.Message">
+		INSERT INTO
+		tb_message(message_to_user_list,
+		message_from_user_id, message_title, message_content,
+		message_create_time, message_last_edit_time)
+		VALUES
+		(#{messageToUserList},#{messageFromUserId},
+		#{messageTitle},#{messageContent},
+		#{messageCreateTime},#{messageLastEditTime})
+	</insert>
+    <update id="updateMessage" parameterType="com.imooc.demo.entity.Message">
+        update tb_message
+        <set>
+            <if test="messageToUserList != null">message_to_user_list=#{messageToUserList},</if>
+            <if test="messageTitle != null">message_title=#{messageTitle},</if>
+            <if test="messageContent != null">message_content=#{messageContent},</if>
+            <if test="messageLastEditTime != null">message_last_edit_time=#{messageLastEditTime}</if>
+        </set>
+        where message_id=#{messageId}
+    </update>
+    <delete id="deleteMessage">
+		DELETE FROM
+		tb_message
+		WHERE
+		message_id =
+		#{messageId}
+	</delete>
+</mapper>
+    

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.ClassGradeDao">
+    <select id="queryClassGrade" resultType="com.imooc.demo.entity.ClassGrade">
+		SELECT class_grade_id, school_id,
+		grade_no, class_no, class_grade_name, head_teacher_id,
+		teachers, students, parents, class_grade_remarks, class_grade_create_time,
+		class_grade_last_edit_time, class_grade_status
+		FROM tb_class_grade
+	</select>
+    <select id="queryClassGradeById" resultType="com.imooc.demo.entity.ClassGrade">
+		SELECT class_grade_id, school_id,
+		grade_no, class_no, class_grade_name, head_teacher_id,
+		teachers, students, parents, class_grade_remarks, class_grade_create_time,
+		class_grade_last_edit_time, class_grade_status
+		FROM tb_class_grade
+		WHERE
+		class_grade_id=#{classGradeId}
+	</select>
+    <insert id="insertClassGrade" useGeneratedKeys="true" keyProperty="classGradeId"
+            keyColumn="class_grade_id" parameterType="com.imooc.demo.entity.ClassGrade">
+		INSERT INTO
+		tb_class_grade(school_id,
+		grade_no, class_no, class_grade_name, head_teacher_id,
+		teachers, students, parents, class_grade_remarks, class_grade_create_time,
+		class_grade_last_edit_time, class_grade_status)
+		VALUES
+		(#{schoolId},#{gradeNO},
+		#{classNO},#{classGradeName},#{headTeacherId},
+		#{teachers},#{students},#{parents},
+		#{classGradeRemarks},#{classGradeCreateTime},#{classGradeLastEditTime},#{classGradeStatus})
+	</insert>
+    <update id="updateClassGrade" parameterType="com.imooc.demo.entity.ClassGrade">
+        update tb_class_grade
+        <set>
+            <if test="schoolId != null">school_id=#{schoolId},</if>
+            <if test="gradeNO != null">grade_no=#{gradeNO},</if>
+            <if test="classNO != null">class_no=#{classNO},</if>
+            <if test="classGradeName != null">class_grade_name=#{classGradeName},</if>
+            <if test="headTeacherId != null">head_teacher_id=#{headTeacherId},</if>
+            <if test="teachers != null">teachers=#{teachers},</if>
+            <if test="students != null">parents=#{students},</if>
+            <if test="parents != null">priority=#{parents},</if>
+            <if test="classGradeRemarks != null">class_grade_remarks=#{classGradeRemarks},</if>
+            <if test="classGradeLastEditTime != null">class_grade_last_edit_time=#{classGradeLastEditTime},</if>
+            <if test="classGradeStatus != null">class_grade_status=#{classGradeStatus}</if>
+        </set>
+        where class_grade_id=#{classGradeId}
+    </update>
+    <delete id="deleteClassGrade">
+		DELETE FROM
+		tb_class_grade
+		WHERE
+		class_grade_id=#{classGradeId}
+	</delete>
+</mapper>

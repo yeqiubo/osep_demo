@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.demo.dao.SchoolDao">
+    <select id="querySchool" resultType="com.imooc.demo.entity.School">
+		SELECT school_id, school_name,
+		school_area, school_admin, school_remarks,school_status,
+		school_create_time,school_last_edit_time
+		FROM tb_school
+
+	</select>
+    <select id="querySchoolById" resultType="com.imooc.demo.entity.School">
+		SELECT school_id, school_name,
+		school_area, school_admin, school_remarks,school_status,
+		school_create_time,school_last_edit_time
+		FROM tb_school
+		WHERE
+		school_id=#{schoolId}
+	</select>
+    <insert id="insertSchool" useGeneratedKeys="true" keyProperty="schoolId"
+            keyColumn="school_id" parameterType="com.imooc.demo.entity.School">
+		INSERT INTO
+		tb_school(school_name,
+		school_area, school_admin,
+		school_remarks,school_status,
+		school_create_time,school_last_edit_time)
+		VALUES
+		(#{schoolName},#{schoolArea},
+		#{schoolAdmin},#{schoolRemarks},
+		#{schoolStatus},#{schoolCreateTime},
+		#{schoolLastEditTime})
+	</insert>
+    <update id="updateSchool" parameterType="com.imooc.demo.entity.School">
+        update tb_school
+        <set>
+            <if test="schoolName != null">school_name=#{schoolName},</if>
+            <if test="schoolArea != null">school_area=#{schoolArea},</if>
+            <if test="schoolAdmin != null">school_admin=#{schoolAdmin},</if>
+            <if test="schoolRemarks != null">school_remarks=#{schoolRemarks},</if>
+            <if test="schoolStatus != null">school_status=#{schoolStatus},</if>
+            <if test="schoolLastEditTime != null">school_last_edit_time=#{schoolLastEditTime}</if>
+        </set>
+        where school_id=#{schoolId}
+    </update>
+    <delete id="deleteSchool">
+		DELETE FROM
+		tb_school
+		WHERE
+		school_id =
+		#{schoolId}
+	</delete>
+</mapper>
+    
